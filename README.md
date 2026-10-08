@@ -1,140 +1,250 @@
-# RentLense — AI & Machine Learning Capstone
 
-**RentLense** is an intelligent rental-property search assistant. It accepts a user's rental requirements in natural language, converts them into structured requirements, retrieves rental listings from RentCast or a controlled demo dataset, filters candidates, ranks them using a weighted matching algorithm, and explains why each property matches.
+# 🏠 RentLense AI
 
-## Capstone workflow
+### An Intelligent System for Finding the Right Rental Property
 
-```text
-Natural-language request
-        ↓
-Requirement parser
-        ↓
-Structured requirements
-        ↓
-RentCast API / Demo data
-        ↓
-Hard requirement filtering
-        ↓
-Weighted matching + ranking
-        ↓
-Match explanations
-        ↓
-Results + CSV export
-```
+RentLense is an AI-powered rental property search assistant that helps users find suitable rental properties based on their natural-language requirements.
 
-This directly follows the project brief's required workflow: natural-language requirements → structured requirements → property API → ranking → best matches and comparison-ready results.
+Instead of manually searching through numerous property listings, users can describe what they are looking for in ordinary language. RentLense extracts the important requirements and uses the RentCast API to retrieve relevant rental listings.
 
-## 1. Requirements
+## 🚀 Live Application
 
-- Python 3.10 or newer
-- VS Code
-- Internet connection when installing packages or using RentCast
-- A RentCast API key for live API mode
+The RentLense application is deployed using Streamlit Community Cloud.
 
-## 2. Open in VS Code
+**Live App:**
+[Add your Streamlit application URL here]
 
-Extract the ZIP and open the **RentLense_Capstone** folder in VS Code.
+---
 
-Open the VS Code terminal and run:
+## 📌 Problem Statement
 
-### Windows
+Finding a suitable rental property can be time-consuming and difficult because rental information is often fragmented across different sources.
 
-```powershell
-python -m venv .venv
-.venv\Scripts\activate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-copy .env.example .env
-```
+Users may need to consider several requirements simultaneously, including:
 
-Then open `.env` and add your RentCast key:
+* Location
+* Budget
+* Number of bedrooms
+* Number of bathrooms
+* Property type
+* Other preferences
+
+Traditional property searches often require users to repeatedly modify filters and manually compare listings.
+
+RentLense addresses this problem by allowing users to describe their requirements naturally.
+
+---
+
+## 💡 Proposed Solution
+
+RentLense provides an intelligent search interface where users can enter requests such as:
+
+> "I need a 2 bedroom apartment in Austin, Texas under $2,500 per month."
+
+The system processes the request, extracts the relevant requirements, queries the rental property API, and displays available property listings.
+
+---
+
+## 🏗️ System Architecture
 
 ```text
-RENTCAST_API_KEY=your_real_api_key_here
+User
+  │
+  ▼
+RentLense Streamlit Interface
+  │
+  ▼
+Natural Language Parser
+  │
+  ▼
+Structured Search Requirements
+  │
+  ▼
+RentCast API
+  │
+  ▼
+Rental Property Listings
+  │
+  ▼
+Results Display
 ```
 
-### macOS/Linux
+---
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-cp .env.example .env
-```
+## 🔧 Technologies Used
 
-## 3. Run the application
+* **Python** — Core programming language
+* **Streamlit** — Web application interface
+* **Pandas** — Data processing
+* **Requests** — API requests
+* **python-dotenv** — Local environment variable management
+* **RentCast API** — Rental property data source
+* **GitHub** — Source code management
+* **Streamlit Community Cloud** — Application deployment
 
-```bash
-streamlit run app.py
-```
+---
 
-Streamlit will display a local address, normally:
-
-```text
-http://localhost:8501
-```
-
-## 4. Demo without an API key
-
-Keep **Use demo data** switched on. The built-in dataset contains Austin and Dallas examples, so the complete workflow can be demonstrated without a live API key.
-
-Try:
-
-```text
-I need a 2-bedroom apartment in Austin, Texas below $3000 per month with parking and security.
-```
-
-or:
-
-```text
-I need a 2-bedroom apartment in Dallas, Texas below $3000 with parking and security.
-```
-
-## 5. Live RentCast mode
-
-Turn off **Use demo data** after adding a valid `RENTCAST_API_KEY` to `.env`.
-
-The application sends the structured location, bedroom, bathroom, budget and property-type requirements to RentCast and then applies the same ranking/explanation stage.
-
-## 6. Run tests
-
-```bash
-pytest -q
-```
-
-The tests cover requirement extraction and ranking/filtering scenarios.
-
-## 7. Project structure
+## 📂 Project Structure
 
 ```text
 RentLense_Capstone/
 │
 ├── app.py
 ├── requirements.txt
-├── .env.example
-├── .gitignore
 ├── README.md
-├── PROJECT_DOCUMENTATION.md
+├── .gitignore
 │
 ├── services/
-│   ├── __init__.py
 │   ├── parser.py
 │   ├── rentcast.py
-│   ├── ranking.py
-│   └── demo_data.py
+│   └── __init__.py
 │
 └── tests/
-    ├── test_parser.py
-    └── test_ranking.py
+    └── ...
 ```
 
-## 8. AI component
+---
 
-The MVP's AI-style intelligence is the natural-language requirement extraction and requirement-aware matching workflow. The parser identifies entities and constraints such as location, budget, bedrooms, bathrooms, property type, parking and security. The ranking layer then uses those structured requirements to make a transparent recommendation instead of generating a generic answer.
+## 🔄 How RentLense Works
 
-The architecture can later be extended with an LLM structured-output parser, semantic/vector search, conversational refinement, maps, property comparison and similar-property recommendations.
+### 1. User Input
 
-## 9. Important security rule
+The user enters a natural-language rental request.
 
-Never commit `.env` or expose your RentCast API key in source code, screenshots or GitHub.
+Example:
+
+```text
+I need a 2 bedroom apartment in Austin, Texas under $2,500 per month.
+```
+
+### 2. Requirement Extraction
+
+The parser identifies relevant requirements such as:
+
+```text
+City: Austin
+State: Texas
+Bedrooms: 2
+Maximum Price: $2,500
+```
+
+### 3. API Search
+
+The structured requirements are sent to the RentCast API.
+
+### 4. Property Retrieval
+
+RentCast returns available rental property listings matching the search criteria.
+
+### 5. Results
+
+RentLense displays the retrieved properties to the user.
+
+---
+
+## 🔐 Security
+
+The RentCast API key is not stored directly in the source code.
+
+For local development, environment variables are used.
+
+For deployment, the API key is stored using Streamlit Secrets.
+
+The `.env` file is excluded from Git using `.gitignore`.
+
+---
+
+## ▶️ Running the Project Locally
+
+### Clone the repository
+
+```bash
+git clone YOUR_GITHUB_REPOSITORY_URL
+```
+
+### Navigate into the project
+
+```bash
+cd RentLense_Capstone
+```
+
+### Create a virtual environment
+
+```bash
+python -m venv .venv
+```
+
+### Activate the environment on Windows
+
+```powershell
+.venv\Scripts\activate
+```
+
+### Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Configure the API key
+
+Create a `.env` file:
+
+```text
+RENTCAST_API_KEY=your_rentcast_api_key
+```
+
+### Run the application
+
+```bash
+streamlit run app.py
+```
+
+---
+
+## 🧪 Testing
+
+The application was tested locally and after deployment.
+
+Testing confirmed that:
+
+* The Streamlit application loads successfully.
+* Natural-language rental requirements can be entered.
+* Requirements are processed by the parser.
+* RentCast API requests are successfully completed.
+* Rental property results are returned.
+* The deployed application successfully performs live searches.
+
+---
+
+## 🌐 Deployment
+
+RentLense is deployed using Streamlit Community Cloud.
+
+The application uses Streamlit Secrets to securely provide the RentCast API key during deployment.
+
+---
+
+## 🎯 Future Improvements
+
+Future versions of RentLense could include:
+
+* Personalized property ranking
+* Property recommendation scores
+* Saved searches
+* User accounts
+* Property comparison
+* Map-based property visualization
+* Commute-time analysis
+* More advanced natural-language understanding
+* Additional rental data sources
+* User feedback for improving recommendations
+
+---
+
+## 👨‍💻 Project
+
+**Project:** RentLense AI
+**Purpose:** Intelligent rental property search
+**Deployment:** Streamlit Community Cloud
+
